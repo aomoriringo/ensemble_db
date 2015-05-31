@@ -1,6 +1,6 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.template import RequestContext, loader
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from .models import *
 
@@ -12,10 +12,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 def detail(request, work_id):
-    try:
-        work = Work.objects.get(pk=work_id)
-    except Work.DoesNotExist:
-        raise Http404("Work does not exist")
+    work = get_object_or_404(Work, pk=work_id)
     return render(request, 'work/detail.html', {'work': work})
 
 def results(request, work_id):
