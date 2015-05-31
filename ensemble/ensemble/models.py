@@ -18,7 +18,9 @@ class Work(models.Model):
     title_jp_reading = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
     subtitle = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
     subtitle_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
-    time = models.IntegerField(null=True, blank=True)
+    time_minute = models.IntegerField(null=True, blank=True)
+    time_second = models.IntegerField(null=True, blank=True)
+
     parent = models.ForeignKey('self', null=True, blank=True)
     order = models.IntegerField(null=True, blank=True)
 
@@ -36,7 +38,7 @@ class Publisher(models.Model):
 class Score(models.Model):
     work = models.ForeignKey(Work)
     pubulisher = models.ForeignKey(Publisher)
-    amazon_url = models.URLField(max_length=URL_FIELD_MAX_LEN)
+    amazon_url = models.URLField(max_length=URL_FIELD_MAX_LEN, blank=True)
 
 class WorkComposer(models.Model):
     work = models.ForeignKey(Work)

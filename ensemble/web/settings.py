@@ -51,7 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'ensemble.urls'
+ROOT_URLCONF = 'web.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ensemble.wsgi.application'
+WSGI_APPLICATION = 'web.wsgi.application'
 
 
 # Database

@@ -17,12 +17,17 @@ class WorkPlayerInline(admin.TabularInline):
     model = Player
     extra = 8
 
+class WorkMusicCategoryInline(admin.TabularInline):
+    model = WorkMusicCategory
+    extra = 1
+
 class WorkAdmin(admin.ModelAdmin):
     list_display = ('title', 'title_jp')
     inlines = [WorkScoreInline,
                WorkComposerInline,
                WorkArrangerInline,
-               WorkPlayerInline]
+               WorkPlayerInline,
+               WorkMusicCategoryInline]
 
 class CDTrackInline(admin.TabularInline):
     model = Track
