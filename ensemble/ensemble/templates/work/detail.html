@@ -1,1 +1,16 @@
-{{ work }}
+<h1>{{ work.title }}</h1>
+<h1>{{ work.title_jp }}</h1>
+
+<h4>composers</h4>
+<ul>
+{% for composer in work.composer_set.all %}
+  <li>{{ composer.name }}
+{% endfor %}
+</ul>
+
+<h4>players</h4>
+<ul>
+{% for player in work.player_set.all %}
+  <li>{{ player.order }}</li>
+{% endfor %}
+</ul>
