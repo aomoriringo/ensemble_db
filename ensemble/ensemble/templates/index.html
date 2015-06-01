@@ -3,21 +3,42 @@
 {% block article %}
 <h4>Latest Works</h4>
 {% if latest_work_list %}
-  <ul>
+  <table class="table table-bordered table-condensed">
+    <tr>
+      <th>Name</th>
+      <th>Name(jp)</th>
+      <th>Composer</th>
+      <th>Arranger</th>
+      <th>Category</th>
+    </tr>
   {% for work in latest_work_list %}
-    <li><a href="{% url 'detail' work.id %}">{{ work.title }}</a></li>
+    <tr>
+      <td><a href="{% url 'work_detail' work.id %}">{{ work.title }}</a></td>
+      <td><a href="{% url 'work_detail' work.id %}">{{ work.title_jp }}</a></td>
+      <td></td>
+      <td></td>
+      <td>{{ work.workmusiccategory_set.first.music_category.name_jp }}</td>
+    </tr>
   {% endfor %}
-  </ul>
+  </table>
 {% else %}
   <p>No works are available.</p>
 {% endif %}
 
 <h4>Latest Writers</h4>
 {% if latest_writer_list %}
-  <ul>
+  <table class="table table-bordered table-condensed">
+    <tr>
+      <th>Name</th>
+      <th>Name(jp)</th>
+    </tr>
   {% for writer in latest_writer_list %}
-    <li>{{ writer.name }}</li>
+    <tr>
+      <td><a href="{% url 'writer_detail' writer.id %}">{{ writer.name }}</a></td>
+      <td><a href="{% url 'writer_detail' writer.id %}">{{ writer.name_jp }}</a></td>
+    </tr>
   {% endfor %}
+  </table>
 {% else %}
   <p>No writers are available.</p>
 {% endif %}

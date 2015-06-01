@@ -13,9 +13,13 @@ def index(request):
     })
     return render(request, 'index.html', context)
 
-def detail(request, work_id):
+def work_detail(request, work_id):
     work = get_object_or_404(Work, pk=work_id)
     return render(request, 'work/detail.html', {'work': work})
+
+def writer_detail(request, writer_id):
+    writer = get_object_or_404(Writer, pk=writer_id)
+    return render(request, 'writer/detail.html', {'writer': writer})
 
 def results(request, work_id):
     response = "You're looking at the results of work %s."
