@@ -1,2 +1,3 @@
 ensemble/db.sqlite3
+ensemble/ensemble/parameter.py
 *.pyc

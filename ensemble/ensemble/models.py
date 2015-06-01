@@ -38,7 +38,7 @@ class Publisher(models.Model):
 class Score(models.Model):
     work = models.ForeignKey(Work)
     pubulisher = models.ForeignKey(Publisher)
-    amazon_url = models.URLField(max_length=URL_FIELD_MAX_LEN, blank=True)
+    asin = models.CharField(max_length=10, blank=True)
 
 class WorkComposer(models.Model):
     work = models.ForeignKey(Work)
@@ -77,13 +77,18 @@ class Instrument(models.Model):
 class Player(models.Model):
     work = models.ForeignKey(Work)
     order = models.IntegerField()
-    instrument = models.ForeignKey(Instrument)
-    number = models.IntegerField()
+    #instrument = models.ForeignKey(Instrument)
+    #number = models.IntegerField()
 
     def __unicode__(self):
         return unicode(self.work) + ":" + unicode(self.order)
     class Meta:
-        unique_together=(("work", "order", "instrument"))
+        unique_together=(("work", "order"))
+
+class PlayerInstrument(models.Model):
+    player = models.ForeignKey(Player)
+    instrument = models.ForeignKey(Instrument)
+    number = models.IntegerField()
 
 class CD(models.Model):
     title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)

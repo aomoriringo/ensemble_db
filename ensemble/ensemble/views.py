@@ -3,6 +3,7 @@ from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 
 from .models import *
+from parameter import AMAZON_TRACKING_ID
 
 def index(request):
     latest_work_list = Work.objects.order_by('-id')[:10]
@@ -15,7 +16,11 @@ def index(request):
 
 def work_detail(request, work_id):
     work = get_object_or_404(Work, pk=work_id)
-    return render(request, 'work/detail.html', {'work': work})
+    context = RequestContext(request, {
+        'work': work,
+        'amazon_id': AMAZON_TRACKING_ID,
+    })
+    return render(request, 'work/detail.html', context)
 
 def writer_detail(request, writer_id):
     writer = get_object_or_404(Writer, pk=writer_id)

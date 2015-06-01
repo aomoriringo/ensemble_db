@@ -22,6 +22,18 @@ Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
 {% endfor %}
 
 <h4>players</h4>
+<table class="table table-bordered table-condensed">
+  <tr>
+    <th></th>
+    <th>Instruments</th>
+  <tr>
+{% for player in work.player_set.all %}
+  <tr>
+    <td>{{ player.order }}</td>
+    <td>{{ player.instrument.name }}</td>
+{% endfor %}
+</table>
+
 <ul>
 {% for player in work.player_set.all %}
 <li>{{ player.order }} / {{ player.instrument.name }}</li>
@@ -31,7 +43,7 @@ Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
 <h4>score</h4>
 <ul>
 {% for score in work.score_set.all %}
-<li><a href="{{ score.amazon_url }}">Amazon</a></li>
+<li><a href="http://www.amazon.co.jp/o/ASIN/{{ score.asin }}/{{ amazon_id }}">Amazon</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
