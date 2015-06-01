@@ -21,13 +21,18 @@ class WorkMusicCategoryInline(admin.TabularInline):
     model = WorkMusicCategory
     extra = 1
 
+class WorkMovementInline(admin.TabularInline):
+    model = Movement
+    extra = 1
+
 class WorkAdmin(admin.ModelAdmin):
     list_display = ('title', 'title_jp')
-    inlines = [WorkScoreInline,
+    inlines = [WorkMusicCategoryInline,
+               WorkMovementInline,
+               WorkScoreInline,
                WorkComposerInline,
                WorkArrangerInline,
-               WorkPlayerInline,
-               WorkMusicCategoryInline]
+               WorkPlayerInline]
 
 class CDTrackInline(admin.TabularInline):
     model = Track

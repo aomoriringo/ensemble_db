@@ -15,14 +15,24 @@ class Writer(models.Model):
 class Work(models.Model):
     title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
-    title_jp_reading = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
-    subtitle = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
-    subtitle_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
+    short_title = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
+    short_title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
+    short_title_jp_reading = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
+
     time_minute = models.IntegerField(null=True, blank=True)
     time_second = models.IntegerField(null=True, blank=True)
 
-    parent = models.ForeignKey('self', null=True, blank=True)
-    order = models.IntegerField(null=True, blank=True)
+    def __unicode__(self):
+        return self.title_jp
+
+class Movement(models.Model):
+    work = models.ForeignKey(Work)
+    order = models.IntegerField()
+    title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, default="")
+
+    time_minute = models.IntegerField(null=True, blank=True)
+    time_second = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.title_jp
@@ -51,6 +61,8 @@ class WorkArranger(models.Model):
 class MusicCategory(models.Model):
     name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    parent = models.ForeignKey('self', null=True, blank=True)
+    number = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name_jp
@@ -68,6 +80,7 @@ class InstrumentType(models.Model):
 
 class Instrument(models.Model):
     name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    short_name = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
     name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     instrument_type = models.ForeignKey(InstrumentType)
 
@@ -77,8 +90,6 @@ class Instrument(models.Model):
 class Player(models.Model):
     work = models.ForeignKey(Work)
     order = models.IntegerField()
-    #instrument = models.ForeignKey(Instrument)
-    #number = models.IntegerField()
 
     def __unicode__(self):
         return unicode(self.work) + ":" + unicode(self.order)
@@ -88,12 +99,13 @@ class Player(models.Model):
 class PlayerInstrument(models.Model):
     player = models.ForeignKey(Player)
     instrument = models.ForeignKey(Instrument)
-    number = models.IntegerField()
+    override_description = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
+    number = models.IntegerField(default=1)
 
 class CD(models.Model):
     title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
-    amazon_url = models.URLField(max_length=URL_FIELD_MAX_LEN)
+    asin = models.CharField(max_length=10, blank=True)
     release = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
