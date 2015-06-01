@@ -1,46 +1,49 @@
 {% extends "article_base.html" %}
 
-{% block page_title %}{{work.subtitle_jp}} {{ work.title_jp }}{% endblock %}
+{% load ensemble_extras %}
+{% block page_title %}{{ work.title_jp }}{% endblock %}
 {% block article %}
-<h3>{{ work.title }} {{ work.subtitle }}</h3>
-Category:
-{% for category in work.workmusiccategory_set.all %}
-  {{ category.music_category.name_jp }}
-{% endfor %}
-<br>
-Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
+<h3>{{ work.title }}</h3>
 
+{% if work.workmusiccategory_set.all %}
+  Category: {% obj_join work.workmusiccategory_set.all "/" "music_category.name_jp" %}<br>
+{% endif %}
 
-<h4>composer</h4>
-{% for composer in work.workcomposer_set.all %}
-  {{ composer.composer.name_jp }}
-{% endfor %}
+{% if work.time_minute and work.time_second %}
+  Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
+{% endif %}
 
-<h4>arranger</h4>
-{% for arranger in work.workarranger_set.all %}
-  {{ arranger.arranger.name_jp }}
-{% endfor %}
+{% if work.workcomposer_set.all %}
+  <h4>Composer</h4>
+  {% obj_join work.workcomposer_set.all "/" "composer.name_jp" %}
+{% endif %}
 
-<h4>players</h4>
+{% if work.workarranger_set.all %}
+  <h4>Arranger</h4>
+  {% obj_join work.workarranger_set.all "/" "arranger.name_jp" %}
+{% endif %}
+
+<h4>Players</h4>
 <table class="table table-bordered table-condensed">
   <tr>
     <th></th>
     <th>Instruments</th>
   <tr>
-{% for player in work.player_set.all %}
+{% for order, val in players.items %}
   <tr>
-    <td>{{ player.order }}</td>
-    <td>{{ player.instrument.name }}</td>
+    <td>{{ order }}</td>
+    <td>
+      {% for id, instrument in val.items %}
+      <a href="{% url 'instrument_detail' id %}">{{ instrument }}</a>
+        {% if not forloop.last %}
+          /
+        {% endif %}
+      {% endfor %}
+    </td>
 {% endfor %}
 </table>
 
-<ul>
-{% for player in work.player_set.all %}
-<li>{{ player.order }} / {{ player.instrument.name }}</li>
-{% endfor %}
-</ul>
-
-<h4>score</h4>
+<h4>Score</h4>
 <ul>
 {% for score in work.score_set.all %}
 <li><a href="http://www.amazon.co.jp/o/ASIN/{{ score.asin }}/{{ amazon_id }}">Amazon</a></li>

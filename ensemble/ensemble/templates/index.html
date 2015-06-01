@@ -1,5 +1,6 @@
 {% extends "article_base.html" %}
 
+{% load ensemble_extras %}
 {% block article %}
 <h4>Latest Works</h4>
 {% if latest_work_list %}
@@ -15,8 +16,8 @@
     <tr>
       <td><a href="{% url 'work_detail' work.id %}">{{ work.title }}</a></td>
       <td><a href="{% url 'work_detail' work.id %}">{{ work.title_jp }}</a></td>
-      <td></td>
-      <td></td>
+      <td>{% obj_join work.workcomposer_set.all "/" "composer.name_jp" %}</td>
+      <td>{% obj_join work.workarranger_set.all "/" "arranger.name_jp" %}</td>
       <td>{{ work.workmusiccategory_set.first.music_category.name_jp }}</td>
     </tr>
   {% endfor %}

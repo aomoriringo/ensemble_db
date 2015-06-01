@@ -1,31 +1,38 @@
-from django.contrib import admin
+from django.contrib.admin import TabularInline, StackedInline, ModelAdmin, site
+from super_inlines.admin import SuperInlineModelAdmin, SuperModelAdmin
+
 from .models import *
 
-class WorkScoreInline(admin.TabularInline):
+class PlayerInstrumentInline(SuperInlineModelAdmin, TabularInline):
+    model = PlayerInstrument
+    extra = 1
+
+class WorkScoreInline(SuperInlineModelAdmin, TabularInline):
     model = Score
     extra = 1
 
-class WorkComposerInline(admin.TabularInline):
+class WorkComposerInline(SuperInlineModelAdmin, TabularInline):
     model = WorkComposer
     extra = 1
 
-class WorkArrangerInline(admin.TabularInline):
+class WorkArrangerInline(SuperInlineModelAdmin, TabularInline):
     model = WorkArranger
     extra = 1
 
-class WorkPlayerInline(admin.TabularInline):
+class WorkPlayerInline(SuperInlineModelAdmin, StackedInline):
     model = Player
     extra = 8
+    inlines = [PlayerInstrumentInline]
 
-class WorkMusicCategoryInline(admin.TabularInline):
+class WorkMusicCategoryInline(SuperInlineModelAdmin, TabularInline):
     model = WorkMusicCategory
     extra = 1
 
-class WorkMovementInline(admin.TabularInline):
+class WorkMovementInline(SuperInlineModelAdmin, TabularInline):
     model = Movement
     extra = 1
 
-class WorkAdmin(admin.ModelAdmin):
+class WorkAdmin(SuperModelAdmin):
     list_display = ('title', 'title_jp')
     inlines = [WorkMusicCategoryInline,
                WorkMovementInline,
@@ -34,17 +41,17 @@ class WorkAdmin(admin.ModelAdmin):
                WorkArrangerInline,
                WorkPlayerInline]
 
-class CDTrackInline(admin.TabularInline):
+class CDTrackInline(SuperInlineModelAdmin, TabularInline):
     model = Track
     extra = 10
 
-class CDAdmin(admin.ModelAdmin):
+class CDAdmin(SuperModelAdmin):
     inlines = [CDTrackInline]
 
-admin.site.register(Work, WorkAdmin)
-admin.site.register(Writer)
-admin.site.register(MusicCategory)
-admin.site.register(InstrumentType)
-admin.site.register(Instrument)
-admin.site.register(CD, CDAdmin)
-admin.site.register(Publisher)
+site.register(Work, WorkAdmin)
+site.register(Writer)
+site.register(MusicCategory)
+site.register(InstrumentType)
+site.register(Instrument)
+site.register(CD, CDAdmin)
+site.register(Publisher)

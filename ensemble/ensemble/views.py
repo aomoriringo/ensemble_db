@@ -16,11 +16,26 @@ def index(request):
 
 def work_detail(request, work_id):
     work = get_object_or_404(Work, pk=work_id)
+    players = {}
+    for player in work.player_set.all():
+        instruments = {}
+        for i in player.playerinstrument_set.all():
+          id = i.instrument.id
+          name = i.override_description or i.instrument.short_name or i.instrument.name
+          if i.number > 1:
+              name = str(i.number) + " " + name
+          instruments[id] = name
+        players[player.order] = instruments
     context = RequestContext(request, {
         'work': work,
+        'players': players,
         'amazon_id': AMAZON_TRACKING_ID,
     })
     return render(request, 'work/detail.html', context)
+
+def instrument_detail(request, instrument_id):
+    instrument = get_object_or_404(Instrument, pk=instrument_id)
+    return render(request, 'instrument/detail.html')
 
 def writer_detail(request, writer_id):
     writer = get_object_or_404(Writer, pk=writer_id)
