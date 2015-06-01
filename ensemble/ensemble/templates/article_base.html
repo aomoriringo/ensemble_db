@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block base_body %}
+<div class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Ensemble DB</a>
+  </div>
+</div>
+<div class="container-fluid">
+  <header>
+  </header>
+  {% block extra_header %}{% endblock extra_header %}
+  {% block page_header %}
+  <div class="page-header clearfix">
+    <div class="pull-left">
+      <h1>{% block page_title %}{% endblock page_title %}</h1>
+    </div>
+  </div>
+  {% endblock page_header %}
+
+
+  <section class="article">
+    <div class="row-fluid">
+      {% block article %}{% endblock article %}
+    </div>
+  </section>
+</div>
+
+{% endblock base_body %}
