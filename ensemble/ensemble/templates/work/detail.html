@@ -1,37 +1,37 @@
 {% extends "article_base.html" %}
 
-{% block page_title %}{{ work.title_jp }}{% endblock %}
+{% block page_title %}{{work.subtitle_jp}} {{ work.title_jp }}{% endblock %}
 {% block article %}
-
-Subtitle: {{ work.subtitle_jp }}<br>
+<h3>{{ work.title }} {{ work.subtitle }}</h3>
+Category:
+{% for category in work.workmusiccategory_set.all %}
+  {{ category.music_category.name_jp }}
+{% endfor %}
+<br>
 Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
 
 
 <h4>composer</h4>
-<ul>
-{% for composer in work.composer_set.all %}
-  <li>{{ composer.name }}</li>
+{% for composer in work.workcomposer_set.all %}
+  {{ composer.composer.name_jp }}
 {% endfor %}
-</ul>
 
 <h4>arranger</h4>
-<ul>
-{% for arranger in work.arranger_set.all %}
-  <li>{{ arranger.name }}</li>
+{% for arranger in work.workarranger_set.all %}
+  {{ arranger.arranger.name_jp }}
 {% endfor %}
-</ul>
 
 <h4>players</h4>
 <ul>
 {% for player in work.player_set.all %}
-  <li>{{ player.order }}</li>
+<li>{{ player.order }} / {{ player.instrument.name }}</li>
 {% endfor %}
 </ul>
 
 <h4>score</h4>
 <ul>
 {% for score in work.score_set.all %}
-  <li>{{ score.id }}</li>
+<li><a href="{{ score.amazon_url }}">Amazon</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

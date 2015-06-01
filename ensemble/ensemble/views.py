@@ -5,9 +5,11 @@ from django.shortcuts import get_object_or_404, render
 from .models import *
 
 def index(request):
-    latest_work_list = Work.objects.order_by('-title')[:5]
+    latest_work_list = Work.objects.order_by('-id')[:10]
+    latest_writer_list = Writer.objects.order_by('-id')[:10]
     context = RequestContext(request, {
         'latest_work_list': latest_work_list,
+        'latest_writer_list': latest_writer_list,
     })
     return render(request, 'index.html', context)
 
