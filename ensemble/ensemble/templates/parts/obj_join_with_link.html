@@ -1,0 +1,6 @@
+{% for obj in objects %}
+  <a href="{% url linkname obj.link %}">{{ obj.val }}</a>
+  {% if not forloop.last %}
+    {{ separater }}
+  {% endif %}
+{% endfor %}

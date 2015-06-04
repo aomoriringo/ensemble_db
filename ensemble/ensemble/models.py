@@ -47,7 +47,7 @@ class Publisher(models.Model):
 
 class Score(models.Model):
     work = models.ForeignKey(Work)
-    pubulisher = models.ForeignKey(Publisher)
+    publisher = models.ForeignKey(Publisher)
     asin = models.CharField(max_length=10, blank=True)
 
 class WorkComposer(models.Model):
@@ -89,7 +89,7 @@ class Instrument(models.Model):
 
 class Player(models.Model):
     work = models.ForeignKey(Work)
-    order = models.IntegerField()
+    order = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.work) + ":" + unicode(self.order)

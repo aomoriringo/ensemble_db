@@ -1,0 +1,36 @@
+{% load ensemble_extras %}
+
+{% if works %}
+<table class="table table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Name(jp)</th>
+    <th>Composer</th>
+    <th>Arranger</th>
+    <th>Category</th>
+  </tr>
+  {% for work in works %}
+  <tr>
+    <td><a href="{% url 'work_detail' work.id %}">
+      {% if work.short_title %}
+        {{ work.short_title }}
+      {% else %}
+        {{ work.title }}
+      {% endif %}
+    </a></td>
+    <td><a href="{% url 'work_detail' work.id %}">
+      {% if work.short_title_jp %}
+        {{ work.short_title_jp }}
+      {% else %}
+        {{ work.title_jp }}
+      {% endif %}
+    </a></td>
+    <td>{% obj_join_with_link work.workcomposer_set.all "/" "composer.name_jp" "composer.id" "writer_detail" %}</td>
+    <td>{% obj_join_with_link work.workarranger_set.all "/" "arranger.name_jp" "arranger.id" "writer_detail" %}</td>
+    <td>{% obj_join_with_link work.workmusiccategory_set.all "/" "music_category.name_jp" "music_category.id" "music_category_detail" %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+  <p>No works are available.</p>
+{% endif %}

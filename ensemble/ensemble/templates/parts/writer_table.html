@@ -1,0 +1,18 @@
+{% load ensemble_extras %}
+
+{% if writers %}
+<table class="table table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Name(jp)</th>
+  </tr>
+  {% for writer in writers %}
+  <tr>
+    <td><a href="{% url 'writer_detail' writer.id %}">{{ writer.name }}</a></td>
+    <td><a href="{% url 'writer_detail' writer.id %}">{{ writer.name_jp }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+  <p>No writers are available.</p>
+{% endif %}

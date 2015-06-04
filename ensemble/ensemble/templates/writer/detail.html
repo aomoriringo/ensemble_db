@@ -1,6 +1,25 @@
 {% extends "article_base.html" %}
 
+{% load ensemble_extras %}
 {% block page_title %}{{ writer.name_jp }}{% endblock %}
 {% block article %}
 <h3>{{ writer.name }}</h3>
+
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#compose" aria-controls="compose" role="tab" data-toggle="tab">Compose</a></li>
+    <li role="presentation">               <a href="#arrange" aria-controls="arrange" role="tab" data-toggle="tab">Arrange</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="compose">
+      {% work_table compose_works %}
+    </div>
+    <div role="tabpanel" class="tab-pane" id="arrange">
+      {% work_table arrange_works %}
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+

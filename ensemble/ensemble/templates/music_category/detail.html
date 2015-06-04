@@ -1,0 +1,9 @@
+{% extends "article_base.html" %}
+
+{% load ensemble_extras %}
+{% block page_title %}{{ music_category.name_jp }}{% endblock %}
+
+{% block article %}
+{% work_table music_category.workmusiccategory_set.all "work" %}
+
+{% endblock %}

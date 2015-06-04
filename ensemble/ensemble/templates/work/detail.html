@@ -6,8 +6,10 @@
 <h3>{{ work.title }}</h3>
 
 {% if work.workmusiccategory_set.all %}
-  Category: {% obj_join work.workmusiccategory_set.all "/" "music_category.name_jp" %}<br>
+  Category: {% obj_join_with_link work.workmusiccategory_set.all "/" "music_category.name_jp" "music_category.id" "music_category_detail" %}
+  <br>
 {% endif %}
+
 
 {% if work.time_minute and work.time_second %}
   Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
@@ -15,12 +17,12 @@
 
 {% if work.workcomposer_set.all %}
   <h4>Composer</h4>
-  {% obj_join work.workcomposer_set.all "/" "composer.name_jp" %}
+  {% obj_join_with_link work.workcomposer_set.all "<br>" "composer.name_jp" "composer.id" "writer_detail" %}
 {% endif %}
 
 {% if work.workarranger_set.all %}
   <h4>Arranger</h4>
-  {% obj_join work.workarranger_set.all "/" "arranger.name_jp" %}
+  {% obj_join_with_link work.workarranger_set.all "<br>" "arranger.name_jp" "arranger.id" "writer_detail" %}
 {% endif %}
 
 <h4>Players</h4>
@@ -31,7 +33,7 @@
   <tr>
 {% for order, val in players.items %}
   <tr>
-    <td>{{ order }}</td>
+    <td>{% if order %}{{ order }}{% endif %}</td>
     <td>
       {% for id, instrument in val.items %}
       <a href="{% url 'instrument_detail' id %}">{{ instrument }}</a>
@@ -43,10 +45,16 @@
 {% endfor %}
 </table>
 
-<h4>Score</h4>
-<ul>
-{% for score in work.score_set.all %}
-<li><a href="http://www.amazon.co.jp/o/ASIN/{{ score.asin }}/{{ amazon_id }}">Amazon</a></li>
-{% endfor %}
-</ul>
+{% if work.score_set.all %}
+  <h4>Score</h4>
+  <ul>
+  {% for score in work.score_set.all %}
+  <li>{{ score.publisher }}
+  {% if score.asin %}
+  (<a href="http://www.amazon.co.jp/o/ASIN/{{ score.asin }}/{{ amazon_id }}">Amazon</a>)
+  {% endif %}
+  </li>
+  {% endfor %}
+  </ul>
+{% endif %}
 {% endblock %}

@@ -21,7 +21,7 @@ class WorkArrangerInline(SuperInlineModelAdmin, TabularInline):
 
 class WorkPlayerInline(SuperInlineModelAdmin, StackedInline):
     model = Player
-    extra = 8
+    extra = 1
     inlines = [PlayerInstrumentInline]
 
 class WorkMusicCategoryInline(SuperInlineModelAdmin, TabularInline):

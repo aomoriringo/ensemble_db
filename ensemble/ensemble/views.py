@@ -35,11 +35,28 @@ def work_detail(request, work_id):
 
 def instrument_detail(request, instrument_id):
     instrument = get_object_or_404(Instrument, pk=instrument_id)
-    return render(request, 'instrument/detail.html')
+    context = RequestContext(request, {
+        'instrument': instrument
+    })
+    return render(request, 'instrument/detail.html', context)
+
+def music_category_detail(request, music_category_id):
+    music_category = get_object_or_404(MusicCategory, pk=music_category_id)
+    context = RequestContext(request, {
+        'music_category': music_category
+    })
+    return render(request, 'music_category/detail.html', context)
 
 def writer_detail(request, writer_id):
     writer = get_object_or_404(Writer, pk=writer_id)
-    return render(request, 'writer/detail.html', {'writer': writer})
+    compose_works = [x.work for x in writer.workcomposer_set.all()]
+    arrange_works = [x.work for x in writer.workarranger_set.all()]
+    context = RequestContext(request, {
+        'writer': writer,
+        'compose_works': compose_works,
+        'arrange_works': arrange_works,
+    })
+    return render(request, 'writer/detail.html', context)
 
 def results(request, work_id):
     response = "You're looking at the results of work %s."
