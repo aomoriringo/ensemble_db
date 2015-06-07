@@ -12,6 +12,20 @@ class Writer(models.Model):
     def __unicode__(self):
         return self.name_jp
 
+    class Meta:
+        ordering = ['name_reading']
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    url = models.URLField(max_length=URL_FIELD_MAX_LEN)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
 class Work(models.Model):
     title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
@@ -22,33 +36,36 @@ class Work(models.Model):
     time_minute = models.IntegerField(null=True, blank=True)
     time_second = models.IntegerField(null=True, blank=True)
 
+    score_publisher = models.ForeignKey(Publisher, null=True, blank=True)
+
     def __unicode__(self):
         return self.title_jp
 
 class Movement(models.Model):
     work = models.ForeignKey(Work)
     order = models.IntegerField()
-    title = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
-    title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, default="")
+    title = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True, default="")
+    title_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True, default="")
 
     time_minute = models.IntegerField(null=True, blank=True)
     time_second = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
-        return self.title_jp
+        return self.title_jp or self.title
 
-class Publisher(models.Model):
+class Shop(models.Model):
     name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     url = models.URLField(max_length=URL_FIELD_MAX_LEN)
 
     def __unicode__(self):
-        return self.name_jp
+        return self.name or self.name_jp
 
-class Score(models.Model):
+class ScoreShop(models.Model):
     work = models.ForeignKey(Work)
-    publisher = models.ForeignKey(Publisher)
+    shop = models.ForeignKey(Shop, null=True, blank=True)
     asin = models.CharField(max_length=10, blank=True)
+    url = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
 
 class WorkComposer(models.Model):
     work = models.ForeignKey(Work)
@@ -67,6 +84,9 @@ class MusicCategory(models.Model):
     def __unicode__(self):
         return self.name_jp
 
+    class Meta:
+        ordering = ['name_jp']
+
 class WorkMusicCategory(models.Model):
     work = models.ForeignKey(Work)
     music_category = models.ForeignKey(MusicCategory)
@@ -78,6 +98,9 @@ class InstrumentType(models.Model):
     def __unicode__(self):
         return self.name_jp
 
+    class Meta:
+        ordering=['name']
+
 class Instrument(models.Model):
     name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     short_name = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)
@@ -85,7 +108,10 @@ class Instrument(models.Model):
     instrument_type = models.ForeignKey(InstrumentType)
 
     def __unicode__(self):
-        return self.name_jp
+        return self.name
+
+    class Meta:
+        ordering=['name']
 
 class Player(models.Model):
     work = models.ForeignKey(Work)
@@ -125,4 +151,8 @@ class Track(models.Model):
     def __unicode__(self):
         return unicode(self.CD) + ":" + unicode(self.order)
 
-
+class CDShop(models.Model):
+    CD = models.ForeignKey(CD)
+    shop = models.ForeignKey(Shop, null=True, blank=True)
+    asin = models.CharField(max_length=10, blank=True)
+    url = models.CharField(max_length=CHAR_FIELD_MAX_LEN, blank=True)

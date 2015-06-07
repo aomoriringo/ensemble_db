@@ -7,8 +7,8 @@ class PlayerInstrumentInline(SuperInlineModelAdmin, TabularInline):
     model = PlayerInstrument
     extra = 1
 
-class WorkScoreInline(SuperInlineModelAdmin, TabularInline):
-    model = Score
+class WorkScoreShopInline(SuperInlineModelAdmin, TabularInline):
+    model = ScoreShop
     extra = 1
 
 class WorkComposerInline(SuperInlineModelAdmin, TabularInline):
@@ -36,10 +36,14 @@ class WorkAdmin(SuperModelAdmin):
     list_display = ('title', 'title_jp')
     inlines = [WorkMusicCategoryInline,
                WorkMovementInline,
-               WorkScoreInline,
+               WorkScoreShopInline,
                WorkComposerInline,
                WorkArrangerInline,
                WorkPlayerInline]
+
+class CDShopInline(SuperInlineModelAdmin, TabularInline):
+    model = CDShop
+    extra = 1
 
 class CDTrackInline(SuperInlineModelAdmin, TabularInline):
     model = Track
@@ -55,3 +59,4 @@ site.register(InstrumentType)
 site.register(Instrument)
 site.register(CD, CDAdmin)
 site.register(Publisher)
+site.register(Shop)

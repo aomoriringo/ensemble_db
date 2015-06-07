@@ -5,14 +5,24 @@
 {% block article %}
 <h3>{{ work.title }}</h3>
 
+{% if work.movement_set.all %}
+  <ul>
+  {% for movement in work.movement_set.all %}
+  <li>{{ movement.order }}. {{ movement }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
 {% if work.workmusiccategory_set.all %}
-  Category: {% obj_join_with_link work.workmusiccategory_set.all "/" "music_category.name_jp" "music_category.id" "music_category_detail" %}
+  <h4>Category</h4>
+  {% obj_join_with_link work.workmusiccategory_set.all "/" "music_category.name_jp" "music_category.id" "music_category_detail" %}
   <br>
 {% endif %}
 
 
 {% if work.time_minute and work.time_second %}
-  Time: {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
+  <h4>Time</h4>
+  {{ work.time_minute }} min. {{ work.time_second }} sec.<br>
 {% endif %}
 
 {% if work.workcomposer_set.all %}

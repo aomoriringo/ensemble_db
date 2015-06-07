@@ -20,7 +20,7 @@ def work_detail(request, work_id):
     for player in work.player_set.all():
         instruments = {}
         for i in player.playerinstrument_set.all():
-          id = i.instrument.id
+          id = i.id
           name = i.override_description or i.instrument.short_name or i.instrument.name
           if i.number > 1:
               name = str(i.number) + " " + name
