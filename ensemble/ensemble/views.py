@@ -6,12 +6,24 @@ from .models import *
 from parameter import AMAZON_TRACKING_ID
 
 def index(request):
-    latest_work_list = Work.objects.order_by('-id')[:10]
+    def get_category_dic(category):
+        children = MusicCategory.objects.filter(parent=category).order_by('order', 'number')
+        if children.exists():
+            l = [get_category_dic(c) for c in children]
+        else:
+            l = []
+        return {"object": category, "children": l}
+
+    latest_work_list = Work.objects.order_by('-id')[:30]
     latest_writer_list = Writer.objects.order_by('-id')[:10]
+    root_category_list = MusicCategory.objects.filter(parent=None).order_by('order', 'number')
+    category_list = [get_category_dic(c) for c in root_category_list]
     context = RequestContext(request, {
         'latest_work_list': latest_work_list,
         'latest_writer_list': latest_writer_list,
+        'category_list': category_list,
     })
+    print(category_list)
     return render(request, 'index.html', context)
 
 def work_detail(request, work_id):

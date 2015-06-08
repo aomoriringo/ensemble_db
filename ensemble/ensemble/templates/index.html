@@ -2,10 +2,39 @@
 
 {% load ensemble_extras %}
 {% block article %}
-<h4>Latest Works</h4>
-{% work_table latest_work_list %}
+<div class="row">
+  <div class="col-md-3">
+    <ul>
+    {% for c in category_list %}
+    <li>
+      <a href="{% url "music_category_detail" c.object.id %}">{{ c.object.name_jp }}</a>
+      <ul>
+      {% for cc in c.children %}
+      <li>
+        <a href="{% url "music_category_detail" cc.object.id %}">{{ cc.object.name_jp }}</a>
+        <ul>
+        {% for ccc in cc.children %}
+          <li>
+            <a href="{% url "music_category_detail" ccc.object.id %}">{{ ccc.object.name_jp }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+      </ul>
+    </li>
+    {% endfor %}
+  </div>
 
-<h4>Latest Writers</h4>
-{% writer_table latest_writer_list %}
+  <div class="col-md-9">
+    <h4>Latest Works</h4>
+    {% work_table latest_work_list %}
+
+    {% comment %}
+    <h4>Latest Writers</h4>
+    {% writer_table latest_writer_list %}
+    {% endcomment %}
+  </div>
+</div>
 
 {% endblock %}

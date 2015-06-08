@@ -80,6 +80,7 @@ class MusicCategory(models.Model):
     name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     parent = models.ForeignKey('self', null=True, blank=True)
     number = models.IntegerField(null=True, blank=True)
+    order = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name_jp
