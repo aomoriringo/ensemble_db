@@ -46,7 +46,7 @@
     <td>{% if order %}{{ order }}{% endif %}</td>
     <td>
       {% for id, instrument in val.items %}
-      <a href="{% url 'instrument_detail' id %}">{{ instrument }}</a>
+      <a href="{% url 'instrument_detail' instrument.link_id %}">{{ instrument.name }}</a>
         {% if not forloop.last %}
           /
         {% endif %}

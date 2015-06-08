@@ -26,7 +26,6 @@ def obj_join_with_link(objects, separater, field, link_field, linkname):
     for val, link in zip(vals, links):
         obj_data.append({'val': val,
                          'link': link})
-    print(obj_data)
     return {'objects': obj_data,
             'separater': separater,
             'linkname': linkname}

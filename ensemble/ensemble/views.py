@@ -24,7 +24,8 @@ def work_detail(request, work_id):
           name = i.override_description or i.instrument.short_name or i.instrument.name
           if i.number > 1:
               name = str(i.number) + " " + name
-          instruments[id] = name
+          instruments[id] = {'name': name,
+                             'link_id': i.instrument.id}
         players[player.order] = instruments
     context = RequestContext(request, {
         'work': work,
