@@ -10,9 +10,11 @@ def index(request):
         children = MusicCategory.objects.filter(parent=category).order_by('order', 'number')
         if children.exists():
             l = [get_category_dic(c) for c in children]
+            count = sum([c['count'] for c in l])
         else:
             l = []
-        return {"object": category, "children": l}
+            count = WorkMusicCategory.objects.filter(music_category=category).count()
+        return {"object": category, "children": l, "count": count}
 
     latest_work_list = Work.objects.order_by('-id')[:30]
     latest_writer_list = Writer.objects.order_by('-id')[:10]

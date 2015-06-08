@@ -3,19 +3,37 @@
 {% load ensemble_extras %}
 {% block article %}
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <ul>
     {% for c in category_list %}
     <li>
-      <a href="{% url "music_category_detail" c.object.id %}">{{ c.object.name_jp }}</a>
+      <a href="{% url "music_category_detail" c.object.id %}">
+        {% if c.object.name_jp_short %}
+          {{ c.object.name_jp_short }}
+        {% else %}
+          {{ c.object.name_jp }}
+        {% endif %}
+      </a> ({{ c.count }})
       <ul>
       {% for cc in c.children %}
       <li>
-        <a href="{% url "music_category_detail" cc.object.id %}">{{ cc.object.name_jp }}</a>
+        <a href="{% url "music_category_detail" cc.object.id %}">
+          {% if cc.object.name_jp_short %}
+            {{ cc.object.name_jp_short }}
+          {% else %}
+            {{ cc.object.name_jp }}
+          {% endif %}
+        </a> ({{ cc.count }})
         <ul>
         {% for ccc in cc.children %}
           <li>
-            <a href="{% url "music_category_detail" ccc.object.id %}">{{ ccc.object.name_jp }}</a>
+            <a href="{% url "music_category_detail" ccc.object.id %}">
+              {% if ccc.object.name_jp_short %}
+                {{ ccc.object.name_jp_short }}
+              {% else %}
+                {{ ccc.object.name_jp }}
+              {% endif %}
+            </a> ({{ ccc.count }})
           </li>
         {% endfor %}
         </ul>
@@ -26,7 +44,7 @@
     {% endfor %}
   </div>
 
-  <div class="col-md-9">
+  <div class="col-md-8">
     <h4>Latest Works</h4>
     {% work_table latest_work_list %}
 

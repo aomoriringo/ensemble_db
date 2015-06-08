@@ -78,6 +78,7 @@ class WorkArranger(models.Model):
 class MusicCategory(models.Model):
     name = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     name_jp = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
+    name_jp_short = models.CharField(max_length=CHAR_FIELD_MAX_LEN)
     parent = models.ForeignKey('self', null=True, blank=True)
     number = models.IntegerField(null=True, blank=True)
     order = models.IntegerField(null=True, blank=True)
