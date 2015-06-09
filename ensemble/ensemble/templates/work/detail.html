@@ -55,16 +55,20 @@
 {% endfor %}
 </table>
 
-{% if work.score_set.all %}
-  <h4>Score</h4>
-  <ul>
-  {% for score in work.score_set.all %}
-  <li>{{ score.publisher }}
-  {% if score.asin %}
-  (<a href="http://www.amazon.co.jp/o/ASIN/{{ score.asin }}/{{ amazon_id }}">Amazon</a>)
+<h4>Score</h4>
+<a href="{% url 'publisher_detail' work.score_publisher.id %}">{{ work.score_publisher.name_jp }}</a>
+  {% if work.scoreshop_set.all %}
+    <ul>
+    {% for scoreshop in work.scoreshop_set.all %}
+      <li>
+        {% if scoreshop.asin %}
+          <a href="http://www.amazon.co.jp/o/ASIN/{{ scoreshop.asin }}/{{ amazon_id }}">
+        {% else %}
+          <a href="{{ scoreshop.url }}">
+        {% endif %}
+        {{ scoreshop.shop.name_jp }}</li>
+    {% endfor %}
+    </ul>
   {% endif %}
-  </li>
-  {% endfor %}
-  </ul>
-{% endif %}
+
 {% endblock %}

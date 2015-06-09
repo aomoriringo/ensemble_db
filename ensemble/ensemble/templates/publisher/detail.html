@@ -1,0 +1,11 @@
+{% extends "article_base.html" %}
+
+{% load ensemble_extras %}
+{% block page_title %}{{ publisher.name_jp }}{% endblock %}
+
+{% block article %}
+<a href="{{ publisher.url }}" target="_blank">{{ publisher.url }}</a>
+<br><br>
+
+{% work_table published_works %}
+{% endblock %}

@@ -25,7 +25,6 @@ def index(request):
         'latest_writer_list': latest_writer_list,
         'category_list': category_list,
     })
-    print(category_list)
     return render(request, 'index.html', context)
 
 def work_detail(request, work_id):
@@ -61,6 +60,15 @@ def music_category_detail(request, music_category_id):
         'music_category': music_category
     })
     return render(request, 'music_category/detail.html', context)
+
+def publisher_detail(request, publisher_id):
+    publisher = get_object_or_404(Publisher, pk=publisher_id)
+    published_works = [x for x in publisher.work_set.all()]
+    context = RequestContext(request, {
+        'publisher': publisher,
+        'published_works': published_works
+    })
+    return render(request, 'publisher/detail.html', context)
 
 def writer_detail(request, writer_id):
     writer = get_object_or_404(Writer, pk=writer_id)
